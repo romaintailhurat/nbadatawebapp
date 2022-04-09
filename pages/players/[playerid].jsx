@@ -13,7 +13,7 @@ function Player({ perfs }) {
 		<div>
 			<h1>This is the page for {playerid}</h1>
 			{perfs.map(perf => (
-				<p className={styles.card}>
+				<p key={perf.date} className={styles.card}>
 					{perf.date} - {perf.score}
 				</p>
 			))}

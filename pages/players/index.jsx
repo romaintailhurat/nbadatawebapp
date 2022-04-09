@@ -11,20 +11,20 @@ function Players({ players }) {
 		<div>
 			<h1>Players</h1>
 			<h2>{players.length}</h2>
-			<li>
+			<ul>
 				{players.map(player => {
 					const link = '/players/' + player.player_id;
 					return (
-						<ul>							
+						<li key={player.player_id}>							
 								<Link href={link}>
                   <p className={styles.card}>
                   {player.player_name}</p>
                 </Link>
 							
-						</ul>
+						</li>
 					);
 				})}
-			</li>
+			</ul>
 		</div>
 	);
 }

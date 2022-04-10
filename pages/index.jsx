@@ -40,7 +40,8 @@ export default function Home() {
 			<footer className={styles.footer}>
 				<a
 					href="http://ibfl.atspace.eu/"
-					target="_blank"					
+					target="_blank"
+          rel="noreferrer"
 				>
 					IBFL &rarr;
 				</a>

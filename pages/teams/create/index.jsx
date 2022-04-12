@@ -1,22 +1,26 @@
- import { useState } from 'react';
+import { useState } from 'react';
+
+const teamSize = 5;
 
 function checkTeam(team) {
 	// team is an array
-	const teamLengthOK = team.length === 15 ? true : false;
+	const teamLengthOK = team.length === teamSize ? true : false;
 	const teamFilledOK =
-		team.filter(element => element === undefined || element === "").length === 0;
+		team
+			.filter(element => element === undefined)
+			.filter(element => element === '').length === 0;
 	return teamLengthOK && teamFilledOK;
 }
 
 function PlayerAdder({ i, state, setstate, players }) {
 	const handleChange = (event, idx) => {
-		state[idx] = event.target.value;
+    const candidate = players.filter(player => player.player_id === event.target.value);    
+		state[idx] = candidate.shift();
 		setstate([...state]);
-		console.log(state, i);
 	};
 	return (
 		<div>
-			<p>{i + 1} Choose a player</p>
+			<p>{i + 1}</p>
 			<select onChange={e => handleChange(e, i)}>
 				<option value="">--Choose a player--</option>
 				{players.map(p => (
@@ -39,12 +43,30 @@ function TeamCreation() {
 		{ player_id: 'barkley', player_name: 'Chuck Barkley' },
 		{ player_id: 'iverson', player_name: 'Allen Iverson' }
 	];
+
+  const handleClick = event => {
+    fetch("https://httpbin.org/post", {method: "POST", body: state}).then(resp => resp.json()).then(data => console.log(data));
+  }
+  
 	return (
 		<div>
 			<h1>Team creation</h1>
-			<p>{state.filter(element => element !== undefined || element !== "").length}/15 players</p>
-      <p>{checkTeam(state) ? <button>Create</button> : <button disabled>Create</button>}</p>
-			{[...Array(15).keys()].map(i => (
+			<h2>Add players to your team</h2>
+			<p>
+				{
+					state
+						.filter(element => element !== undefined)
+						.filter(element => element !== '').length
+				}/{teamSize} players
+			</p>
+			<p>
+				{checkTeam(state) ? (
+					<button onClick={e => handleClick(e)}>Create</button>
+				) : (
+					<button disabled>Create</button>
+				)}
+			</p>
+			{[...Array(teamSize).keys()].map(i => (
 				<PlayerAdder
 					key={i}
 					i={i}

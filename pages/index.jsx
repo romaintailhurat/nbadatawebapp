@@ -21,19 +21,18 @@ export default function Home() {
 
 				<div className={styles.grid}>
 					<Link href="/players">
-						<p className={styles.card}>
+						<div className={styles.card}>
 							<h2>Players &#945;</h2>
 							<p>All players stats</p>
-						</p>
+						</div>
 					</Link>
 
 					<Link href="/teams">
-						<p className={styles.card}>
+						<div className={styles.card}>
 							<h2>Teams &#946;</h2>
 							<p>All teams</p>
-						</p>
-					</Link>
-					
+						</div>
+					</Link>					
 				</div>
 			</main>
 

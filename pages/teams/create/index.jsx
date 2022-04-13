@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 import styles from '../../../styles/Home.module.css';
 
 const teamSize = 5;
@@ -15,24 +17,23 @@ function checkTeam(team) {
 }
 
 function PlayerAdder({ i, state, setstate, players }) {
-	const handleChange = (event, idx) => {
-		const candidate = players.filter(
-			player => player.player_id === event.target.value
-		);
-		state[idx] = candidate.shift();
+	const handleChange = (event, newValue, idx) => {        
+		state[idx] = newValue
 		setstate([...state]);
 	};
 	return (
 		<div>
 			<p>{i + 1}</p>
-			<select onChange={e => handleChange(e, i)}>
-				<option value="">--Choose a player--</option>
-				{players.map(p => (
-					<option key={p.player_id} value={p.player_id}>
-						{p.player_name}
-					</option>
-				))}
-			</select>
+			<Autocomplete
+				disablePortal
+				id="combo-box-demo"
+				options={players}
+				getOptionLabel={option => option.player_name}
+				sx={{ width: 300 }}
+				renderInput={params => <TextField {...params} label="Player" />}        
+				onChange={(event, newValue) => handleChange(event, newValue, i)}
+			/>
+			
 		</div>
 	);
 }
@@ -51,7 +52,7 @@ function TeamCreation() {
 	const handleClick = event => {
 		fetch('https://httpbin.org/post', { method: 'POST', body: state })
 			.then(resp => resp.json())
-			.then(data => console.log(data));
+			.then(data => console.log(data.data));
 	};
 
 	return (
@@ -73,8 +74,8 @@ function TeamCreation() {
 					</Button>
 				) : (
 					<Button variant="contained" disabled>
-            Create
-          </Button>
+						Create
+					</Button>
 				)}
 			</p>
 			{[...Array(teamSize).keys()].map(i => (

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import Button from '@mui/material/Button';
+import styles from '../../../styles/Home.module.css';
 
 const teamSize = 5;
 
@@ -14,7 +16,9 @@ function checkTeam(team) {
 
 function PlayerAdder({ i, state, setstate, players }) {
 	const handleChange = (event, idx) => {
-    const candidate = players.filter(player => player.player_id === event.target.value);    
+		const candidate = players.filter(
+			player => player.player_id === event.target.value
+		);
 		state[idx] = candidate.shift();
 		setstate([...state]);
 	};
@@ -44,12 +48,14 @@ function TeamCreation() {
 		{ player_id: 'iverson', player_name: 'Allen Iverson' }
 	];
 
-  const handleClick = event => {
-    fetch("https://httpbin.org/post", {method: "POST", body: state}).then(resp => resp.json()).then(data => console.log(data));
-  }
-  
+	const handleClick = event => {
+		fetch('https://httpbin.org/post', { method: 'POST', body: state })
+			.then(resp => resp.json())
+			.then(data => console.log(data));
+	};
+
 	return (
-		<div>
+		<div className={styles.container}>
 			<h1>Team creation</h1>
 			<h2>Add players to your team</h2>
 			<p>
@@ -59,11 +65,16 @@ function TeamCreation() {
 						.filter(element => element !== '').length
 				}/{teamSize} players
 			</p>
+
 			<p>
 				{checkTeam(state) ? (
-					<button onClick={e => handleClick(e)}>Create</button>
+					<Button variant="contained" onClick={e => handleClick(e)}>
+						Create
+					</Button>
 				) : (
-					<button disabled>Create</button>
+					<Button variant="contained" disabled>
+            Create
+          </Button>
 				)}
 			</p>
 			{[...Array(teamSize).keys()].map(i => (

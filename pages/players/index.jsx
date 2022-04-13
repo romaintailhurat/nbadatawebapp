@@ -1,29 +1,30 @@
 import Link from 'next/link';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from '@mui/material/ListItemButton';
 import styles from '../../styles/Home.module.css';
-import { getSupabaseClient } from '../../remote/supabaseclient.js'
-
+import { getSupabaseClient } from '../../remote/supabaseclient.js';
 
 const supabase = getSupabaseClient();
 
 function Players({ players }) {
 	return (
-		<div>
+		<div className={styles.container}>
 			<h1>Players</h1>
 			<h2>{players.length}</h2>
-			<ul>
+			<List>
 				{players.map(player => {
 					const link = '/players/' + player.player_id;
 					return (
-						<li key={player.player_id}>							
-								<Link href={link}>
-                  <p className={styles.card}>
-                  {player.player_name}</p>
-                </Link>
-							
-						</li>
+						<ListItem key={player.player_id}>
+							<ListItemButton>
+								<Link href={link}>{player.player_name}</Link>
+							</ListItemButton>
+						</ListItem>
 					);
 				})}
-			</ul>
+			</List>
 		</div>
 	);
 }

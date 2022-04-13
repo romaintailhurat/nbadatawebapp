@@ -1,10 +1,9 @@
-import { createClient } from '@supabase/supabase-js';
 import Link from 'next/link';
 import styles from '../../styles/Home.module.css';
+import { getSupabaseClient } from '../../remote/supabaseclient.js'
 
-const supabaseUrl = 'https://pqueqfsinqobuaznhdys.supabase.co';
-const supabaseKey = process.env.SUPABASE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+
+const supabase = getSupabaseClient();
 
 function Players({ players }) {
 	return (

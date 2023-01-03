@@ -27,12 +27,13 @@ function getColorFromScore(score) {
   }
 }
 
-function Player({ perfs, name }) {
+function Player({ perfs, player }) {
   const router = useRouter();
-  const { playerid } = router.query;
+  const { playerid } = router.query;  
+  
   return (
     <div>
-      <h1>This is the page for {name} {playerid}</h1>
+      <h1>{player.player_name}</h1>
       {perfs.map(perf => (
         <div key={perf.date}>
           <Card>
@@ -59,15 +60,19 @@ function Player({ perfs, name }) {
 export async function getServerSideProps(context) {
   const { playerid } = context.query;
 
-  let { data: perfs, error } = await supabase
+  let { data: perfs } = await supabase
     .from('perfs') // join with the players table to get the name
     .select('score, date')
     .order('date', { ascending: false })
     .eq('player_id', playerid);
 
-  let name = await supabase.from('players').select('player_name').eq('player_id', playerid);
+  let { data } = await supabase.from('players').select('player_name').eq('player_id', playerid);
+  
+  let player = data[0]
 
-  return { props: { perfs, name: name } };
+  console.log(player)
+  
+  return { props: { perfs, player } };
 }
 
 export default Player;

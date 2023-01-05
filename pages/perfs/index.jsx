@@ -7,7 +7,7 @@ function Perfs({perfs}) {
     <div>
       <h1>Perfs</h1>
       <h2>Last perfs</h2>
-      {perfs.map(perf => <p>{perf.player_id}: {perf.score}</p>)}
+      {perfs.map(perf => <p key={player_id}>{perf.player_id}: {perf.score}</p>)}
     </div>
   )
 }

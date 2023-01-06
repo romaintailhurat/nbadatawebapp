@@ -1,4 +1,3 @@
-import { getSupabaseClient } from '../../remote/supabaseclient.js';
 import Link from 'next/link';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -19,7 +18,9 @@ function Perfs() {
           return(
             <ListItem key={date}>
 							<ListItemButton>
-								<Link href={link}>{date}</Link>
+								<Link href={link}>
+                  <ListItemText primary={date}/>
+                </Link>
 							</ListItemButton>
 						</ListItem>
           )

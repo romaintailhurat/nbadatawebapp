@@ -2,9 +2,7 @@ import { getSupabaseClient } from '../../remote/supabaseclient.js';
 
 const supabase = getSupabaseClient();
 
-const date = '2023-01-04'; // FIXME
-
-function Perfs({ perfs }) {
+function Perfs({ perfs, date }) {
   return (
     <div>
       <h1>Perfs</h1>
@@ -15,6 +13,9 @@ function Perfs({ perfs }) {
 }
 
 export async function getServerSideProps(context) {
+
+  const { date } = context.query;
+  
   let { data: perfs, error } = await supabase
     .from('perfs')
     .select('player_id, score')
@@ -22,7 +23,7 @@ export async function getServerSideProps(context) {
     .eq('date', date);
 
   return {
-    props: { perfs: perfs } // will be passed to the page component as props
+    props: { perfs: perfs, date } // will be passed to the page component as props
   };
 }
 

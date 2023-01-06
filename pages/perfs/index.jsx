@@ -1,29 +1,33 @@
 import { getSupabaseClient } from '../../remote/supabaseclient.js';
+import Link from 'next/link';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from '@mui/material/ListItemButton';
 
-const supabase = getSupabaseClient();
+function Perfs() {
 
-const date = '2023-01-04'; // FIXME
-
-function Perfs({ perfs }) {
+  const dates = ["2023-01-03", "2023-01-04"] //FIXME feed from DB
+  
   return (
     <div>
       <h1>Perfs</h1>
-      <h2>From {date}</h2>
-      {perfs.map(perf => <p key={perf.player_id}>{perf.player_id}: {perf.score}</p>)}
+      <List>
+        {dates.map(date => {
+          const link = "/perfs/" + date;
+
+          return(
+            <ListItem key={date}>
+							<ListItemButton>
+								<Link href={link}>{date}</Link>
+							</ListItemButton>
+						</ListItem>
+          )
+        })}
+      </List>
+      
     </div>
   )
-}
-
-export async function getServerSideProps(context) {
-  let { data: perfs, error } = await supabase
-    .from('perfs')
-    .select('player_id, score')
-    .order('score', { ascending: false })
-    .eq('date', date);
-
-  return {
-    props: { perfs: perfs } // will be passed to the page component as props
-  };
 }
 
 export default Perfs;
